@@ -1,0 +1,15 @@
+.userCardImage {
+    height: 10vh;
+    /* width: 10vh; */
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.mainPageCardImage {
+    height: 25vh;
+    /* width: 10vh; */
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
