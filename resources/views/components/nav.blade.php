@@ -20,6 +20,9 @@
             <a class="nav-link text-success" href="{{route('creaAnnuncio')}}">Inserisci annuncio</a>
           </li>
           <li class="nav-item">
+            <p class="nav-link"><strong>Benvenuto/a {{auth()->user()->name}}</strong></p>
+          </li>
+          <li class="nav-item">
             <form action="/logout" method="post">
               @csrf
               <input type="submit" class="nav-link text-danger" value="Logout">

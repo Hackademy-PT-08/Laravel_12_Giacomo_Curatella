@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Picture;
 use Illuminate\Http\Request;
 
@@ -13,7 +14,8 @@ class PictureController extends Controller
     //!Mostriamo tutti i SUOI annunci all'utente
     public function index()
     {
-        $pictures = Picture::all();
+        $userID = auth()->user()->id;
+        $pictures = User::find($userID)->pictures;
 
         return view('pictures.index', ['pictures'=>$pictures]);
     }
@@ -46,6 +48,7 @@ class PictureController extends Controller
         $picture->title = $request->title;
         $picture->description = $request->description;
         $picture->price = $request->price;
+        $picture->user_id = auth()->user()->id;
         $picture->save();
         return redirect(route('homeUser'));
     }
@@ -65,7 +68,11 @@ class PictureController extends Controller
     public function edit($id)
     {
         $picture = Picture::find($id);
-        return view('pictures.edit', ['picture' => $picture]);
+        if(auth()->user()->id !== $picture->user_id){
+            return redirect(route('home'));
+        }else {
+            return view('pictures.edit', ['picture' => $picture]);
+        }
     }
 
     /**
