@@ -19,6 +19,15 @@
                     </div>
 
                     <div class="mb-3">
+                        <label for="categories" class="form-label"><strong>Categorie</strong></label>
+                        <select name="categories[]" id="categories" multiple class="form-control">
+                            @foreach ($categories as $category)
+                                <option value="{{$category->id}}" {{ ($picture->categories->contains($category->id)) ? 'selected' : '' }}>{{$category->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
                         <label for="price" class="form-label"><strong>Prezzo dell'articolo</strong></label>
                         <input type="number" name="price" class="form-control form-control-lg shadow" placeholder="€" value="{{$picture->price}}">
                     </div>

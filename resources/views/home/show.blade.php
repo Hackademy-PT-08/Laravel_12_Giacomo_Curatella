@@ -12,6 +12,7 @@
             <div class="col-12">
                 <p class="h4 mb-5">{{ $picture->title }}</p>
                 <p class="mb-5"><strong>€ {{ $picture->price }}</strong></p>
+                <a href="{{route('checkout', ['id'=> $picture->id])}}" class="btn btn-primary mb-5">Acquista Ora!</a>
                 <p class="fs-5">{{ $picture->description }}</p>
             </div>
         </div>

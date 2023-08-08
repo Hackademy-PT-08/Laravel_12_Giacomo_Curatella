@@ -10,18 +10,31 @@
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="{{route('home')}}">Annunci</a>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link" href="{{route('homeUser')}}">I miei annunci</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">I miei ordini</a>
+            <a class="nav-link" href="{{route('indexOrders')}}">I miei ordini</a>
           </li>
           <li class="nav-item">
             <a class="nav-link text-success" href="{{route('creaAnnuncio')}}">Inserisci annuncio</a>
-          </li>
-          <li class="nav-item">
+          </li> -->
+          <!-- <li class="nav-item">
             <p class="nav-link"><strong>Benvenuto/a {{auth()->user()->name}}</strong></p>
-          </li>
+          </li> -->
+
+          <div class="dropdown">
+            <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Benvenuto/a {{auth()->user()->name}}
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Modifica Profilo</a></li>
+              <li><a class="dropdown-item" href="{{route('homeUser')}}">I miei annunci</a></li>
+              <li><a class="dropdown-item" href="{{route('indexOrders')}}">I miei ordini</a></li>
+              <li><a class="dropdown-item" href="{{route('creaAnnuncio')}}">Inserisci annuncio</a></li>
+            </ul>
+          </div>
+
           <li class="nav-item">
             <form action="/logout" method="post">
               @csrf

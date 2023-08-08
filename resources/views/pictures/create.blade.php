@@ -1,6 +1,7 @@
 <x-layout>
 <x-slot name="title">Crea Annuncio</x-slot>
 
+
 <section class="container py-5">
     <p class="h2 text-center display-6">Inserisci nuovo annuncio</p>
     <div class="row justify-content-center">
@@ -15,6 +16,15 @@
                 <div class="mb-3">
                     <label for="description" class="form-label"><strong>Testo dell'annuncio</strong></label>
                     <textarea name="description" cols="30" rows="10" style="resize: none;" class="form-control shadow form-control-lg" placeholder="Descrivi al meglio il tuo articolo per aumentare le probabilità di venderlo!"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="categories" class="form-label"><strong>Categorie</strong></label>
+                    <select name="categories[]" id="categories" multiple class="form-control">
+                        @foreach ($categories as $category)
+                            <option value="{{$category->id}}">{{$category->name}}</option>
+                        @endforeach
+                    </select>
                 </div>
 
                 <div class="mb-3">

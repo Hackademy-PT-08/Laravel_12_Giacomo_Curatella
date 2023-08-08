@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Picture;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class PictureController extends Controller
@@ -25,7 +26,8 @@ class PictureController extends Controller
      */
     public function create()
     {
-        return view('pictures.create');
+        $categories = Category::all();
+        return view('pictures.create', ['categories'=>$categories]);
     }
 
     /**
@@ -50,6 +52,14 @@ class PictureController extends Controller
         $picture->price = $request->price;
         $picture->user_id = auth()->user()->id;
         $picture->save();
+
+        $categories = $request->categories;
+        $current_picture = Picture::find($picture->id);
+
+        foreach($categories as $category){
+            $current_picture->categories()->attach($category);
+        }
+
         return redirect(route('homeUser'));
     }
 
@@ -67,11 +77,15 @@ class PictureController extends Controller
      */
     public function edit($id)
     {
+        $categories = Category::all();
         $picture = Picture::find($id);
         if(auth()->user()->id !== $picture->user_id){
             return redirect(route('home'));
         }else {
-            return view('pictures.edit', ['picture' => $picture]);
+            return view('pictures.edit', [
+                'picture' => $picture,
+                'categories' => $categories
+            ]);
         }
     }
 
@@ -95,6 +109,23 @@ class PictureController extends Controller
         $picture->description = $request->description;
         $picture->price = $request->price;
         $picture->save();
+
+        $last_picture_id = Picture::find($picture->id);
+        
+        //!prendo tutte le categorie dalla loro tabella
+        $allCategories = Category::all();
+        //!elimino tutte le categorie che aveva il quadro
+        foreach($allCategories as $singleCategory){
+            $last_picture_id->categories()->detach($singleCategory);
+        }
+
+        //!salvo nella variabile l'array di categorie che mi restituisce l'utente al submit del form
+        $editCategories = $request->categories;
+        //!aggiorno le categorie del quadro come da modifica utente
+        foreach ($editCategories as $editCategory){
+            $last_picture_id->categories()->attach($editCategory);
+        }
+
         return redirect(route('homeUser'));
     }
 
@@ -106,5 +137,12 @@ class PictureController extends Controller
         $picture = Picture::find($id);
         $picture->delete();
         return redirect(route('homeUser'));
+    }
+
+    public function indexOrders(){
+        $userID = auth()->user()->id;
+        $customers = User::find($userID)->customers;
+
+        return view('pictures.orders-index', ['customers' => $customers]);
     }
 }
